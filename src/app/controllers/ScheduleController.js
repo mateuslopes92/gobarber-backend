@@ -10,7 +10,7 @@ class ScheduleController {
     });
 
     if (!checkUserProvider) {
-      return res.status().json({ error: 'User is not a provider' })
+      return res.status().json({ error: 'User is not a provider' });
     }
 
     const { date } = req.query;
@@ -24,6 +24,13 @@ class ScheduleController {
           [Op.between]: [startOfDay(parsedDate), endOfDay(parsedDate)],
         },
       },
+      include: [
+        {
+          model: User,
+          as: 'user',
+          attributes: ['name'],
+        },
+      ],
       order: ['date'],
     });
 
